@@ -46,6 +46,24 @@ def build_executable():
     return True
 
 
+def run_tests():
+    """Run unit tests to ensure mathematical correctness"""
+    print("Running unit tests to verify calculator accuracy...")
+    
+    try:
+        # Run the test file
+        result = subprocess.run([sys.executable, 'test_calculator.py'], 
+                              check=True, capture_output=True, text=True)
+        print("ALL unit tests passed!")
+        return True
+    except subprocess.CalledProcessError as e:
+        print("Unit tests failed!")
+        print("Error output:")
+        print(e.stdout)
+        print(e.stderr)
+        return False
+
+
 def install_dependencies():
     """Install required dependencies"""
     
@@ -65,14 +83,19 @@ def install_dependencies():
 if __name__ == "__main__":
     print("Feet & Inches Calculator Build Script")
     print("=" * 40)
-    
-    # Install dependencies first
-    if not install_dependencies():
+      # Run unit tests first
+    if not run_tests():
+        print("\nBuild aborted: Unit tests failed!")
+        print("Please fix the failing tests before building.")
         sys.exit(1)
     
-    # Build executable
+    # Install dependencies
+    if not install_dependencies():
+        sys.exit(1)
+      # Build executable
     if not build_executable():
         sys.exit(1)
     
     print("\nBuild completed successfully!")
     print("You can find the executable in the 'dist' folder.")
+    print("All unit tests passed - calculator math verified!")
