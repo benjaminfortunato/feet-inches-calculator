@@ -1,4 +1,4 @@
-"""
+﻿"""
 Feet and Inches Calculator GUI
 A simple calculator for feet and inches measurements with GUI interface
 """
@@ -50,10 +50,8 @@ class CalculatorGUI:
             [sg.Multiline('', key='-HISTORY-', size=(70, 10), font=('Arial', 10), 
                          disabled=True, autoscroll=True, horizontal_scroll=True)],
             [sg.Button('Clear History', size=(12, 1))],
-            
             [sg.Text('')],
-            [sg.Button('Run Tests', size=(10, 1)), 
-             sg.Button('Exit', size=(10, 1))]
+            [sg.Button('Exit', size=(10, 1))]
         ]
         
         # Create window
@@ -110,32 +108,6 @@ class CalculatorGUI:
         self.history = []
         self.window['-HISTORY-'].update('')
     
-    def run_tests(self):
-        """Run the calculator tests and display results"""
-        try:
-            # Capture test output
-            import io
-            import sys
-            from calculator_engine import run_tests
-            
-            # Redirect stdout to capture test output
-            old_stdout = sys.stdout
-            sys.stdout = mystdout = io.StringIO()
-            
-            # Run tests
-            run_tests()
-            
-            # Restore stdout
-            sys.stdout = old_stdout
-            test_output = mystdout.getvalue()
-            
-            # Display test results in a popup
-            sg.popup_scrolled('Unit Test Results', test_output, 
-                            size=(80, 20), font=('Courier', 10))
-            
-        except Exception as e:
-            sg.popup_error(f"Error running tests: {str(e)}")
-    
     def run(self):
         """Main event loop"""
         while True:
@@ -156,9 +128,6 @@ class CalculatorGUI:
             
             elif event == 'Clear History':
                 self.clear_history()
-            
-            elif event == 'Run Tests':
-                self.run_tests()
         
         self.window.close()
 
